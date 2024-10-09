@@ -16,12 +16,8 @@ public class WorkspacePageSteps extends PageSteps {
 
     private WorkspaceService WorkspacePageService;
 
-    @Then("the new workspace should be created correctly")
-    public void theNewWorkspaceShouldBeCreatedCorrectly() {
-        boolean isCreated = WorkspaceService.isWorkspaceCreated();
-        Assert.assertTrue(isCreated, "The new workspace was not created correctly.");
 
-    }
+
 }
 
 

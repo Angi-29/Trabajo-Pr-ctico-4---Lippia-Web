@@ -5,54 +5,73 @@ import com.crowdar.core.actions.WebActionManager;
 import junit.framework.Assert;
 import lippia.web.constants.WorkspaceConstants;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 import static com.crowdar.core.actions.ActionManager.click;
 //import static lippia.web.constants.WorkspaceConstants.CREATE_BUTTON;
-import static lippia.web.constants.WorkspaceConstants.CREATE_BUTTON;
-import static lippia.web.constants.WorkspaceConstants.CREATE_NEW_WORKSPACE_BUTTON;
+import static java.sql.DriverManager.getDriver;
+import static lippia.web.constants.WorkspaceConstants.*;
 
 
 public class WorkspaceService {
     private static WebDriver driver;
     private Object ClockifyWorkspaceService;
-    private String workspaceName;
+    public static String workspaceName;
 
-    public WorkspaceService(WebDriverWait wait) {
+
+    public WorkspaceService(WebDriver driver) {
+        WorkspaceService.driver = driver;
     }
 
 
     public static void performSuccessFulLogin(String email, String password, Object button) {
-        ActionManager.click(WorkspaceConstants.LOG_IN_MANUALLY);
-        WebActionManager.setInput(WorkspaceConstants.EMAIL_INPUT, email);
-        WebActionManager.setInput(WorkspaceConstants.PASSWORD_INPUT, String.valueOf(password));
-        ActionManager.click(WorkspaceConstants.LOG_IN_BUTTON, (String) button);
+        click(LOG_IN_MANUALLY);
+        WebActionManager.setInput(EMAIL_INPUT, email);
+        WebActionManager.setInput(PASSWORD_INPUT, String.valueOf(password));
+        click(LOG_IN_BUTTON, (String) button);
     }
 
     public static void navigateToManageWorkspaces() {
-        ActionManager.click(String.valueOf(WorkspaceConstants.MEATBALLS_MENU));
-        ActionManager.click(String.valueOf(WorkspaceConstants.MANAGE_WORKSPACES_OPTION));
+        click(MEATBALLS_MENU);
+        click(MANAGE_WORKSPACES_OPTION);
     }
 
     public static void clickCreateNewWorkspaceButton() {
         click(String.valueOf(CREATE_NEW_WORKSPACE_BUTTON));
     }
 
-    public static boolean enterWorkspaceName(String workspaceName) {
-        WebActionManager.setInput(WorkspaceConstants.WORKSPACE_NAME_INPUT, workspaceName);
-        return false;
-    }
 
-    public static void createNewWorkspace(String workspaceName) {
+    public void enterText(String xpath, String text) {
+        // WebElement element = getDriver().findElement(By.xpath(xpath));
+
     }
 
     public static void clickCreateButton() {
-        ActionManager.click(String.valueOf(CREATE_BUTTON));
+        click(String.valueOf(CREATE_BUTTON));
     }
 
+    public static void setName(String name) {
 
+        ActionManager.setInput(WORKSPACE_NAME_INPUT, name);
+    }
+
+    public static void elementos(String nameWorkSpace) {
+        System.out.println("A buscar >>>> "+nameWorkSpace);
+        List<WebElement> workspaceRows = WebActionManager.waitVisibilities(WORKSPACE_ROW_CSS_SELECTOR);
+        boolean flagOk = false;
+        for (WebElement e : workspaceRows) {
+            System.out.println(">>>>" + e.getText());
+            if (e.getText().equalsIgnoreCase(nameWorkSpace)) {
+                flagOk = true;
+                break;// Si encuentra el valor, retornamos true
+            }
+        }
+
+        Assert.assertTrue("No se encontro registro", flagOk);
+    }
 
 
 }

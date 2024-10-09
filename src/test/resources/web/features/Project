@@ -1,0 +1,8 @@
+@project
+Feature: As a client I want to create a new project
+
+  Background:
+    Given The client is on landing page
+    And The client click on 'Log In'
+    And The client is logged in with email 'cuentaparapruebas933@gmail.com', password 'Contrasena123' and click on button 'Login'
+

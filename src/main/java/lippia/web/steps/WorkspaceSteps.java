@@ -1,22 +1,23 @@
 package lippia.web.steps;
 
 import com.crowdar.core.PageSteps;
+import com.crowdar.core.Utils;
+import io.cucumber.java.After;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lippia.web.services.LandingPageWorkspaceService;
 import lippia.web.services.WorkspaceService;
+import lippia.web.utils.AlphanumericGenerator;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import static lippia.web.services.WorkspaceService.workspaceName;
+
 public class WorkspaceSteps extends PageSteps {
-    private WebDriver driver;
-    private WorkspaceService workspaceService;
-    private Object button;
-    private String option;
 
-    public static void verifyWorkspaceCreated(String crowdarAcademyTests) {
-    }
-
+    private String workSpaceName;
 
     @Given("The clients is on landing page")
     public void theClientsIsOnLandingPage() {
@@ -49,13 +50,27 @@ public class WorkspaceSteps extends PageSteps {
     }
 
     @And("the client enters a valid name {string}")
-    public void theClientEntersAValidNameCrowdarAcademyTests(String workspaceName) {
-
+    public void theClientEntersAValidNameCrowdarAcademyTests(String name) {
+        this.workSpaceName = name + "_" + AlphanumericGenerator.generateAlphanumeric(4);
+        WorkspaceService.setName(this.workSpaceName);
     }
 
     @And("the client clicks on the 'create' button")
     public void theClientClicksOnTheCreateButton() {
-            WorkspaceService.clickCreateButton();
+        WorkspaceService.clickCreateButton();
+    }
+
+    @Then("the new workspace {string} should be created correctly")
+    public void theNewWorkspaceCrowdarAcademyTestsShouldBeCreatedCorrectly(String name) {
+        WorkspaceService.elementos(this.workSpaceName);
+    }
+
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();  // Cierra el navegador después del escenario
+            System.out.println("Navegador cerrado después del escenario");
+        }
     }
 }
 

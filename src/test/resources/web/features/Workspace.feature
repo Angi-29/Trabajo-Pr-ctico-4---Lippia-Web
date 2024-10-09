@@ -10,6 +10,6 @@ Feature: As a client I want to create a Workspace Management
   Scenario: Successful creation of workspace with a valid name
     When The client clicks on the Meatballs menu and selects 'Manage Workspaces'
     And the client clicks the 'Create new workspace' button
-    And the client enters a valid name 'CrowdarAcademyTests-3'
+    And the client enters a valid name 'CrowdarAcademyTests'
     And the client clicks on the 'create' button
-    Then the new workspace should be created correctly
+    Then the new workspace 'CrowdarAcademyTests' should be created correctly
