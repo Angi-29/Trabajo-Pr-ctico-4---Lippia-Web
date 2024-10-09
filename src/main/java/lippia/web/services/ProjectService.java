@@ -1,30 +1,29 @@
 package lippia.web.services;
 
-import com.crowdar.core.actions.WebActionManager;
-import org.openqa.selenium.WebDriver;
 
-import static com.crowdar.core.actions.ActionManager.click;
-import static lippia.web.constants.ProjectConstants.*;
-
-
+import com.crowdar.core.actions.ActionManager;
+import junit.framework.Assert;
+import lippia.web.constants.ProjectConstants;
 
 public class ProjectService {
-    private static WebDriver driver;
 
 
-
-    public ProjectService() {
-        ProjectService.driver = driver;
+    public static void btnCreatenewproject() {
+        ActionManager.waitClickable(ProjectConstants.BTN_CREATE_PROJECT).click();
+        ActionManager.waitClickable(ProjectConstants.BTN_CREATE_NEW_PROJECT).click();
     }
 
-
-    public static void performSuccessFulLogin(String email, String password, Object button) {
-        click(LOG_IN_MANUALLY);
-        WebActionManager.setInput(EMAIL_INPUT, email);
-        WebActionManager.setInput(PASSWORD_INPUT, String.valueOf(password));
-        click(LOG_IN_BUTTON, (String) button);
+    public static void inputNameNewProject(String nameNewProject) {
+        ActionManager.setInput(ProjectConstants.INPUT_NAME_PROJECT, nameNewProject);
     }
 
+    public static void clicCreateButton() {
+        ActionManager.waitClickable(ProjectConstants.BTN_ADD_NEW_PROJECT).click();
+    }
+
+    public static String getNewProject() {
+        return ActionManager.waitVisibility(ProjectConstants.LBL_NEW_PROJECT).getText();
+    }
 
 
 }

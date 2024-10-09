@@ -11,8 +11,6 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 import static com.crowdar.core.actions.ActionManager.click;
-//import static lippia.web.constants.WorkspaceConstants.CREATE_BUTTON;
-import static java.sql.DriverManager.getDriver;
 import static lippia.web.constants.WorkspaceConstants.*;
 
 
@@ -63,7 +61,7 @@ public class WorkspaceService {
         List<WebElement> workspaceRows = WebActionManager.waitVisibilities(WORKSPACE_ROW_CSS_SELECTOR);
         boolean flagOk = false;
         for (WebElement e : workspaceRows) {
-            System.out.println(">>>>" + e.getText());
+            System.out.println(">>>> e.getText()" + e.getText());
             if (e.getText().equalsIgnoreCase(nameWorkSpace)) {
                 flagOk = true;
                 break;// Si encuentra el valor, retornamos true
