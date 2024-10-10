@@ -17,5 +17,5 @@ Feature: As a client I want to create a Workspace Management
   @Smoke @Do
   Scenario: Update workspace name
     Given the client has a workspace created
-    When the client modifies the workspace name by "fer"
+    When the client modifies the workspace name by "lippia"
     Then the new workspace name is updated
