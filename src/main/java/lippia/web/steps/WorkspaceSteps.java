@@ -7,6 +7,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import junit.framework.Assert;
 import lippia.web.services.LandingPageWorkspaceService;
 import lippia.web.services.WorkspaceService;
 import lippia.web.utils.AlphanumericGenerator;
@@ -62,7 +63,8 @@ public class WorkspaceSteps extends PageSteps {
 
     @Then("the new workspace {string} should be created correctly")
     public void theNewWorkspaceCrowdarAcademyTestsShouldBeCreatedCorrectly(String name) {
-        WorkspaceService.elementos(this.workSpaceName);
+        boolean flagSearch = WorkspaceService.elementos(this.workSpaceName);
+        Assert.assertTrue("[WARNING] No se encontro WorkSpace con el nombre de " + this.workSpaceName, flagSearch);
     }
 
     @After
@@ -71,6 +73,32 @@ public class WorkspaceSteps extends PageSteps {
             driver.quit();  // Cierra el navegador después del escenario
             System.out.println("Navegador cerrado después del escenario");
         }
+    }
+
+
+    @Given("the client has a workspace created")
+    public void theClientHasAWorkspaceCreated() {
+        WorkspaceService.navigateToManageWorkspaces();
+        WorkspaceService.clickCreateNewWorkspaceButton();
+        this.workSpaceName = "Workspace" + "_" + AlphanumericGenerator.generateAlphanumeric(4);
+        WorkspaceService.setName(this.workSpaceName);
+        WorkspaceService.clickCreateButton();
+        WorkspaceService.elementos(this.workSpaceName);
+    }
+
+    @When("the client modifies the workspace name by {string}")
+    public void theClientModifiesTheWorkspaceNameBy(String newName) {
+        newName = "_" + newName;
+        WorkspaceService.modificNameWorkSpace(this.workSpaceName, newName);
+        WorkspaceService.navigateToManageWorkspaces();
+        this.workSpaceName = this.workSpaceName + newName;
+    }
+
+    @Then("the new workspace name is updated")
+    public void theNewWorkspaceNameIsUpdated() {
+        boolean flagSearch = WorkspaceService.elementos(this.workSpaceName);
+        Assert.assertTrue("[WARNING] No se encontro WorkSpace con el nombre de " + this.workSpaceName, flagSearch);
+
     }
 }
 

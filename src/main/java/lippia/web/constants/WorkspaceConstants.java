@@ -15,7 +15,7 @@ public class WorkspaceConstants {
 
     public static final String CREATE_BUTTON = "xpath://*[@class=\"cl-btn cl-btn-primary\"]";
     public static final String WORKSPACE_NAME_INPUT = "css:.cl-form-control";
-    public static final String WORKSPACE_ROW_CSS_SELECTOR = "css:.cl-cut-text";
+    public static final String WORKSPACE_ROW_TAG_SELECTOR = "tag:workspace-row";
 
 
 }

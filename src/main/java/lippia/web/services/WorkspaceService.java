@@ -56,19 +56,29 @@ public class WorkspaceService {
         ActionManager.setInput(WORKSPACE_NAME_INPUT, name);
     }
 
-    public static void elementos(String nameWorkSpace) {
-        System.out.println("A buscar >>>> "+nameWorkSpace);
-        List<WebElement> workspaceRows = WebActionManager.waitVisibilities(WORKSPACE_ROW_CSS_SELECTOR);
+    public static boolean elementos(String nameWorkSpace) {
+        System.out.println("[INFO] workspace name to search is " + nameWorkSpace);
+        List<WebElement> workspaceRows = WebActionManager.getElements(WORKSPACE_ROW_TAG_SELECTOR);
         boolean flagOk = false;
         for (WebElement e : workspaceRows) {
-            System.out.println(">>>> e.getText()" + e.getText());
-            if (e.getText().equalsIgnoreCase(nameWorkSpace)) {
+            String workSpaceName = e.findElement(By.className("cl-cut-text")).getText();
+            if (workSpaceName.equalsIgnoreCase(nameWorkSpace)) {
                 flagOk = true;
                 break;// Si encuentra el valor, retornamos true
             }
         }
+        return flagOk;
+    }
 
-        Assert.assertTrue("No se encontro registro", flagOk);
+    public static void modificNameWorkSpace(String oldName, String newName) {
+        List<WebElement> workspaceRows = WebActionManager.waitVisibilities("tag:workspace-row");
+        for (WebElement e : workspaceRows) {
+            String workSpaceName = e.findElement(By.className("cl-cut-text")).getText();
+            if (oldName.compareToIgnoreCase(workSpaceName) == 0) {
+                e.findElement(By.tagName("button")).click();
+                WorkspaceSettingsService.modificWorkspacename(newName);
+            }
+        }
     }
 
 

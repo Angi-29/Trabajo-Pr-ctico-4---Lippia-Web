@@ -1,6 +1,7 @@
 package lippia.web.steps;
 
 import com.crowdar.core.PageSteps;
+import io.cucumber.java.After;
 import io.cucumber.java.en.Then;
 import lippia.web.services.LogInService;
 import org.testng.Assert;
@@ -26,6 +27,14 @@ public class TimeTrackerSteps extends PageSteps {
     public void theClientShouldThenBeRedirectedToTheLoginPage(String url) {
         Assert.assertEquals("https://app.clockify.me/en/login", LOGIN_PAGE_URL);
 
+    }
+
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();  // Cierra el navegador después del escenario
+            System.out.println("Navegador cerrado después del escenario");
+        }
     }
 
 }
