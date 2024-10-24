@@ -14,7 +14,7 @@ Feature: As a client I want to create a Workspace Management
     And the client clicks on the 'create' button
     Then the new workspace 'CrowdarAcademyTests' should be created correctly
 
-  @Smoke @Do
+  @Smoke
   Scenario: Update workspace name
     Given the client has a workspace created
     When the client modifies the workspace name by "lippia"
