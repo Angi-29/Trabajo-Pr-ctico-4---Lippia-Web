@@ -1,9 +1,14 @@
 package lippia.web.services;
 
-import TimeTrackerConstants.TimeTrackerConstants;
+import io.lippia.api.lowcode.variables.VariablesManager;
+import lippia.web.constants.TimeTrackerConstants;
 import com.crowdar.core.actions.WebActionManager;
 import lippia.web.constants.LogInConstants;
 import org.openqa.selenium.WebDriver;
+
+import java.time.Duration;
+
+import static org.testng.Assert.assertEquals;
 
 
 public class LogInService {
@@ -12,12 +17,15 @@ public class LogInService {
     public static void logInManually() {
         WebActionManager.click(LogInConstants.LOG_IN_MANUALLY);
     }
+
     public static void setEmail(String email) {
         WebActionManager.setInput(LogInConstants.EMAIL_INPUT, email);
     }
+
     public static void setPassword(String password) {
         WebActionManager.setInput(LogInConstants.PASSWORD_INPUT, password);
     }
+
     public static void clickLoginButton(String button) {
         WebActionManager.click(LogInConstants.LOG_IN_BUTTON, button);
     }
@@ -27,9 +35,24 @@ public class LogInService {
         WebActionManager.waitVisibility(TimeTrackerConstants.TIME_TRACKER_PAGE_TITLE);
     }
 
-    public static void verifyErrorMessage(String expectedMessage) {
-        String actualMessage = WebActionManager.getText(LogInConstants.ERROR_MESSAGE);
+    public static void verifyErrorMessage() {
+        try {
+            Thread.sleep(5000); // 60 segundos en milisegundos
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String errorMessage = WebActionManager.waitVisibility(LogInConstants.ERROR_MESSAGE).getText();
+        VariablesManager.setVariable("errorMessage", errorMessage);
+    }
 
+    public static void verifyErrorMessageEmailformat() {
+        try {
+            Thread.sleep(5000); // 60 segundos en milisegundos
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String errorMessage = WebActionManager.waitVisibility(LogInConstants.ERROR_MESSAGE_EMAIl_FORMAT).getText();
+        VariablesManager.setVariable("errorMessage", errorMessage);
     }
 
     public static void performSuccessFulLogin(String email, String password, String button) {
@@ -39,7 +62,7 @@ public class LogInService {
         WebActionManager.click(LogInConstants.LOG_IN_BUTTON, button);
     }
 
-    public static void clickProfileMenuButton(){
+    public static void clickProfileMenuButton() {
         WebActionManager.click(LogInConstants.PROFILE_MENU_BUTTON);
     }
 
@@ -47,7 +70,7 @@ public class LogInService {
         WebActionManager.click(LogInConstants.SIGN_OUT_OPTION);
     }
 
-    public boolean isRedirectedToLoginPage (){
+    public boolean isRedirectedToLoginPage() {
         String currentUrl = driver.getCurrentUrl();
         return currentUrl.endsWith(TimeTrackerConstants.LOGIN_PAGE_URL);
     }

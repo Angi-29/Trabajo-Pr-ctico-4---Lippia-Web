@@ -2,8 +2,10 @@ package lippia.web.steps;
 
 import com.crowdar.core.PageSteps;
 import io.cucumber.java.en.*;
+import io.lippia.api.lowcode.variables.VariablesManager;
 import lippia.web.services.LandingPageService;
 import lippia.web.services.LogInService;
+import org.testng.Assert;
 
 import static org.bouncycastle.cms.RecipientId.password;
 
@@ -57,6 +59,12 @@ public class LoginSteps extends PageSteps {
         
     }
 
+    @Then("The client should see a format error message {string}")
+    public void theClientShouldSeeAFormatErrorMessageEmailFormatIsNotValid(String expectedMessage) {
+        LogInService.verifyErrorMessageEmailformat();
+        String errorMessage = VariablesManager.getVariable("errorMessage").toString();
+        Assert.assertEquals(errorMessage, expectedMessage);
+    }
 }
 
 
