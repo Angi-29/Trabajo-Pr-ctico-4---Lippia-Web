@@ -37,7 +37,7 @@ public class LogInService {
 
     public static void verifyErrorMessage() {
         try {
-            Thread.sleep(5000); // 60 segundos en milisegundos
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

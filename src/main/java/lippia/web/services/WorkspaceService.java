@@ -15,7 +15,7 @@ import static lippia.web.constants.WorkspaceConstants.*;
 
 
 public class WorkspaceService {
-    private static WebDriver driver;
+    static WebDriver driver;
     private Object ClockifyWorkspaceService;
     public static String workspaceName;
 
@@ -58,7 +58,7 @@ public class WorkspaceService {
 
     public static boolean elementos(String nameWorkSpace) {
         System.out.println("[INFO] workspace name to search is " + nameWorkSpace);
-        List<WebElement> workspaceRows = WebActionManager.getElements(WORKSPACE_ROW_TAG_SELECTOR);
+        List<WebElement> workspaceRows = WebActionManager.waitPresences(WORKSPACE_ROW_TAG_SELECTOR);
         boolean flagOk = false;
         for (WebElement e : workspaceRows) {
             String workSpaceName = e.findElement(By.className("cl-cut-text")).getText();
