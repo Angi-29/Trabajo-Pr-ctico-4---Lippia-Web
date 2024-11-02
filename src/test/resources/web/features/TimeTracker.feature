@@ -9,7 +9,6 @@ Feature: Time Tracker
   Scenario Outline: Successful time registration manual
     Given the user clicks add manual
     When the user clicks Time Tracker
-    #And the user click on the calendar
     And The user enters the date "<Date>"
     And The user sets the start time to "<StartTime>"
     And The user sets the end time to "<EndTime>"
@@ -42,7 +41,7 @@ Feature: Time Tracker
     Then the user sees the modified data: "<Description>","<Project>","<Time_START>","<Time_END>","<newDate>"
     Examples:
       | dateModify | Description      | Project | Time_START | Time_END | newDate    |
-      | 20/10/2023 | Time_Traker_Edit | adios   | 08:00      | 10:00    | 20/10/2024 |
+      | 20/10/2023 | Time_Traker_Edit | ModifyTimeTraker   | 08:00      | 10:00    | 20/10/2024 |
 
 
 

@@ -27,6 +27,10 @@ public class TimeTrackerConstants {
     public static final String SELECTS_PROJECT = "xpath://*[@class=\"cl-component-divided-left cl-no-divider-border cl-pl-0 cl-dropdown-toggle cl-no-arrow cl-max-width-100\"]";
 
     public static final String SEARCH_PROJECT = "id:app-text-field-0";
-    // public static final String MESSAGE_CANCELLED = ;
-    // public static final String BTN_ADD = "button.cl-btn.cl-btn-primary.cl-btn-sm.cl-d-block.cl-d-lg-custom-none";
+
+    public static final String TAG_ENTRY_GROUP = "xpath://a[@id='bulkEdit']";
+    public static final String BTN_BULK_EDIT ="xpath://span[contains(text(), 'Bulk edit')]";
+
+
+
 }

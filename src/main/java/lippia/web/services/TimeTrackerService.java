@@ -135,21 +135,20 @@ public class TimeTrackerService {
     }
 
     public static void clicModifyTimeTraker(String fecha) {
-        String TAG_ENTRY_GROUP = "xpath://a[@id='bulkEdit']";
+        Sleep.Stop(3);
 
-        List<WebElement> bulkEdit = WebActionManager.waitPresences(TAG_ENTRY_GROUP);
+        List<WebElement> bulkEdit = WebActionManager.waitPresences(TimeTrackerConstants.TAG_ENTRY_GROUP);
         for (WebElement ec : bulkEdit) {
             ec.click();
         }
         //Invertimos y convertimos la fecha para la busqueda
         // DD/MM/YYYY = YYYY-MM-DD
-        Sleep.Stop(3);
+
         String idFecha = MyDate.invertirFecha(fecha);
         List<WebElement> edit = WebActionManager.waitPresences("xpath://input[@type='checkbox' and contains(@id, '" + idFecha + "')]");
         for (WebElement ed : edit) {
             ed.click();
-            String BTN_BULK_EDIT = "xpath://main[@id='layout-main']/div/tracker2/div/div/div/div/entry-group[2]/div/entry-group-header/div/div/span[2]/a/span";
-            WebActionManager.getElement(BTN_BULK_EDIT).click();
+            WebActionManager.getElement(TimeTrackerConstants.BTN_BULK_EDIT).click();
         }
 
     }
@@ -162,6 +161,7 @@ public class TimeTrackerService {
     }
 
     public static void simpleTimeRecord(String fecha) {
+        theUserClicksAddManual();
         enterDate(fecha);
         clickAddButton();
     }
