@@ -35,13 +35,14 @@ Feature: Time Tracker
 
   @Smoke
   Scenario Outline: The user Modify Time Traker
-    Given the user selects the time tracker entry for "<dateModify>" to modify
+    Given the user has a time entry registered "<dateModify>"
+    And the user selects the time tracker entry for "<dateModify>" to modify
     When the user enters new data: "<Description>","<Project>","<Time_START>","<Time_END>","<newDate>"
     And the user click save modify
-    Then the user sees the modified data: "<Description>","<Project>","<Time_START>","<Time_END>","<Date>"
+    Then the user sees the modified data: "<Description>","<Project>","<Time_START>","<Time_END>","<newDate>"
     Examples:
-      | dateModify | Description      | Project | Time_START | Time_END | newDate       |
-      | 2023-10-26 | Time_Traker_Edit | adios   | 08:00      | 10:00    | 20/10/2024 |
+      | dateModify | Description      | Project | Time_START | Time_END | newDate    |
+      | 20/10/2023 | Time_Traker_Edit | adios   | 08:00      | 10:00    | 20/10/2024 |
 
 
 

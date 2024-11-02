@@ -1,25 +1,19 @@
 package lippia.web.steps;
 
 import com.crowdar.core.PageSteps;
-import com.crowdar.core.actions.WebActionManager;
 import io.cucumber.java.After;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.lippia.api.lowcode.variables.VariablesManager;
-import lippia.web.constants.TimeTrackerConstants;
 import lippia.web.services.LogInService;
 import lippia.web.services.ModifyTimeTraker;
 import lippia.web.services.TimeTrackerService;
-import lippia.web.utils.Date;
+import lippia.web.utils.MyDate;
 import lippia.web.utils.Sleep;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import junit.framework.Assert;
 import lippia.web.utils.AlphanumericGenerator;
-
-import java.util.List;
 
 import static lippia.web.constants.TimeTrackerConstants.LOGIN_PAGE_URL;
 
@@ -103,7 +97,7 @@ public class TimeTrackerSteps extends PageSteps {
     public void theUserSeesTheRecordedTimeTracker() {
         boolean flagDescription = TimeTrackerService.searchDescription(this.description);
         //convertimos la fecha a buscar en pagina
-        String fechaFormateada = Date.formatDate(this.date);
+        String fechaFormateada = MyDate.formatDate(this.date);
         boolean flagDate = TimeTrackerService.searchTimeTracker(fechaFormateada);
 
         Assert.assertTrue("[WARNING] No se encontro la descripcion", flagDescription);
@@ -152,7 +146,7 @@ public class TimeTrackerSteps extends PageSteps {
 
         if (fecha.compareToIgnoreCase("Today") != 0 && fecha.compareToIgnoreCase("Yesterday") != 0) {
             //convertimos la fecha a buscar en pagina
-            String fechaFormateada = Date.formatDate(this.date);
+            String fechaFormateada = MyDate.formatDate(this.date);
             boolean flagDate = TimeTrackerService.searchTimeTracker(fechaFormateada);
             Assert.assertTrue("[WARNING] No se encontro la fecha cargada", flagDate);
         }
@@ -175,7 +169,9 @@ public class TimeTrackerSteps extends PageSteps {
     }
 
     @Then("the user sees the modified data: {string},{string},{string},{string},{string}")
-    public void theUserSeesTheModifiedData(String Description, String Project, String Time_START, String Time_END, String Date) {
+    public void theUserSeesTheModifiedData(String Description, String Project, String Time_START, String Time_END, String newDate) {
+        boolean flag = TimeTrackerService.searchEntryDescription(Description);
+        Assert.assertTrue("[WARNING] No se encontro la descripcion modificada", flag);
     }
 
     @Given("the user select time trake modify {string}")
@@ -186,6 +182,11 @@ public class TimeTrackerSteps extends PageSteps {
     @Given("the user selects the time tracker entry for {string} to modify")
     public void theUserSelectsTheTimeTrackerEntryForToModify(String fecha) {
         TimeTrackerService.clicModifyTimeTraker(fecha);
+    }
+
+    @Given("the user has a time entry registered {string}")
+    public void theUserHasATimeEntryRegistered(String fecha) {
+        TimeTrackerService.simpleTimeRecord(fecha);
     }
 }
 

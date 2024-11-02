@@ -1,16 +1,13 @@
 package lippia.web.services;
 
 import com.crowdar.core.actions.WebActionManager;
-import io.lippia.api.lowcode.variables.VariablesManager;
-import lippia.web.constants.LogInConstants;
 import lippia.web.constants.TimeTrackerConstants;
-import lippia.web.utils.Date;
+import lippia.web.utils.MyDate;
 import lippia.web.utils.Sleep;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.security.Key;
 import java.util.List;
 
 import static lippia.web.constants.TimeTrackerConstants.BTN_START;
@@ -138,14 +135,17 @@ public class TimeTrackerService {
     }
 
     public static void clicModifyTimeTraker(String fecha) {
-        String TAG_ENTRY_GROUP = "xpath://entry-group";
-        String aux = "xpath://a[@id='bulkEdit']";
+        String TAG_ENTRY_GROUP = "xpath://a[@id='bulkEdit']";
 
-        List<WebElement> bulkEdit = WebActionManager.waitVisibilities(aux);
+        List<WebElement> bulkEdit = WebActionManager.waitPresences(TAG_ENTRY_GROUP);
         for (WebElement ec : bulkEdit) {
             ec.click();
         }
-        List<WebElement> edit = WebActionManager.waitPresences("xpath://input[@type='checkbox' and contains(@id, '2023-10-26')]");
+        //Invertimos y convertimos la fecha para la busqueda
+        // DD/MM/YYYY = YYYY-MM-DD
+        Sleep.Stop(3);
+        String idFecha = MyDate.invertirFecha(fecha);
+        List<WebElement> edit = WebActionManager.waitPresences("xpath://input[@type='checkbox' and contains(@id, '" + idFecha + "')]");
         for (WebElement ed : edit) {
             ed.click();
             String BTN_BULK_EDIT = "xpath://main[@id='layout-main']/div/tracker2/div/div/div/div/entry-group[2]/div/entry-group-header/div/div/span[2]/a/span";
@@ -154,8 +154,16 @@ public class TimeTrackerService {
 
     }
 
-    public static void modfyTimeTriker(String Description, String Project, String Time_START, String Time_END, String Date) {
+    public static boolean searchEntryDescription(String descrip) {
+        int i = WebActionManager.waitPresences("xpath://div[@data-cy='time-entry-description' and contains(text(), '" + descrip + "')]").size();
 
+        //Si encunetro un elmento con la mism descripcion devuelvo true, caso contario si es 0 o mas de 1 devuelvo false
+        return (i == 1);
+    }
+
+    public static void simpleTimeRecord(String fecha) {
+        enterDate(fecha);
+        clickAddButton();
     }
 }
 
