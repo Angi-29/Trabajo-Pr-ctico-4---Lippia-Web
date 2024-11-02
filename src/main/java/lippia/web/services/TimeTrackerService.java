@@ -54,7 +54,8 @@ public class TimeTrackerService {
     }
 
     public static void clickAddButton() {
-        WebActionManager.waitPresence(TimeTrackerConstants.ADD_BTN).click();
+        WebActionManager.waitClickable(TimeTrackerConstants.ADD_BTN).click();
+        Sleep.Stop(2);
     }
 
     public static void addDescription(String description) {
@@ -97,7 +98,6 @@ public class TimeTrackerService {
 
     public static void theUserClickAddTimer() {
         WebActionManager.click(TimeTrackerConstants.ADD_TIMER);
-
     }
 
     public static void theUserAddADescription(String Automation) {
@@ -113,7 +113,7 @@ public class TimeTrackerService {
     }
 
     public static void clickOnKebabMenu() {
-        WebActionManager.click(TimeTrackerConstants.KEBAB_MENU);
+        WebActionManager.waitClickable(TimeTrackerConstants.KEBAB_MENU).click();
     }
 
     public static void clickOnDiscard() {
@@ -121,7 +121,9 @@ public class TimeTrackerService {
     }
 
     public static void clickButtonDiscard() {
-        WebActionManager.click(TimeTrackerConstants.BTN_DISCARD);
+        Sleep.Stop(1);
+        WebActionManager.waitVisibility(TimeTrackerConstants.BTN_DISCARD).click();
+
     }
 
 
@@ -130,8 +132,9 @@ public class TimeTrackerService {
         WebActionManager.getElement(TimeTrackerConstants.SEARCH_PROJECT).click();
         WebActionManager.getElement(TimeTrackerConstants.SEARCH_PROJECT).sendKeys(project);
         String LBL_PROJECT = "css:[title='" + project + "']";
-        WebActionManager.waitClickable(LBL_PROJECT).click();
         Sleep.Stop(3);
+        WebActionManager.waitClickable(LBL_PROJECT).click();
+
     }
 
     public static void clicModifyTimeTraker(String fecha) {

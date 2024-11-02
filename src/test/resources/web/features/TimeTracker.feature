@@ -5,7 +5,7 @@ Feature: Time Tracker
     Given The client is logged in on the page
     And the user clicks Time Tracker
 
-  @addTimeTracker @Do
+  @addTimeTracker @Do @Smoke
   Scenario Outline: Successful time registration manual
     Given the user clicks add manual
     When the user clicks Time Tracker
@@ -19,10 +19,10 @@ Feature: Time Tracker
     Examples:
       | Date       | StartTime | EndTime | Description | Project  |
       | 27/10/2024 | 09:00     | 17:00   | automation  | AngiTest |
-      #| 28/10/2024 | 09:00     | 17:00   | automation  | AngiTest |
+      | 28/10/2024 | 09:00     | 17:00   | automation  | AngiTest |
 
 
-  @cancelTimerEntry @clockify @Do
+  @cancelTimerEntry @clockify @Do @Smoke
   Scenario: Start a time entry and then cancel it
     When the user click add timer
     And the user add a description "Automation"
