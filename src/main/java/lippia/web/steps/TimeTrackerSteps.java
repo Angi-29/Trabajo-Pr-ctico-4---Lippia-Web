@@ -1,24 +1,33 @@
 package lippia.web.steps;
 
 import com.crowdar.core.PageSteps;
+import com.crowdar.core.actions.WebActionManager;
 import io.cucumber.java.After;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.lippia.api.lowcode.variables.VariablesManager;
 import lippia.web.constants.TimeTrackerConstants;
 import lippia.web.services.LogInService;
+import lippia.web.services.ModifyTimeTraker;
 import lippia.web.services.TimeTrackerService;
+import lippia.web.utils.Date;
+import lippia.web.utils.Sleep;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
+import junit.framework.Assert;
 import lippia.web.utils.AlphanumericGenerator;
 
+import java.util.List;
+
 import static lippia.web.constants.TimeTrackerConstants.LOGIN_PAGE_URL;
+
 
 public class TimeTrackerSteps extends PageSteps {
 
     private String description;
+    private String date;
 
     @Then("The client is on the time tracker page")
     public void theClientIsOnTheTimeTrackerPage() {
@@ -64,6 +73,7 @@ public class TimeTrackerSteps extends PageSteps {
 
     @And("The user enters the date {string}")
     public void theUserEntersTheDate(String date) {
+        this.date = date;
         TimeTrackerService.enterDate(date);
     }
 
@@ -91,10 +101,96 @@ public class TimeTrackerSteps extends PageSteps {
 
     @Then("the user sees the recorded time tracker")
     public void theUserSeesTheRecordedTimeTracker() {
-        boolean flag = TimeTrackerService.searchDescription(this.description);
+        boolean flagDescription = TimeTrackerService.searchDescription(this.description);
+        //convertimos la fecha a buscar en pagina
+        String fechaFormateada = Date.formatDate(this.date);
+        boolean flagDate = TimeTrackerService.searchTimeTracker(fechaFormateada);
+
+        Assert.assertTrue("[WARNING] No se encontro la descripcion", flagDescription);
+        Assert.assertTrue("[WARNING] No se encontro la fecha cargada", flagDate);
+
         System.out.println("");
     }
+
+
+    @When("the user click add timer")
+    public void theUserClickAddTimer() {
+        TimeTrackerService.theUserClickAddTimer();
+    }
+
+    @And("the user add a description {string}")
+    public void theUserAddADescription(String Automation) {
+        TimeTrackerService.theUserAddADescription(Automation);
+    }
+
+
+    @And("the user click on the start button")
+    public void theUserClickOnTheStartButton() {
+        TimeTrackerService.theUserClicksOnTheStartButton();
+    }
+
+
+    @And("the user opens the Kebab menu and selects {string}")
+    public void theUserOpensTheKebabMenuAndSelects(String option) {
+        TimeTrackerService.clickOnKebabMenu();
+        TimeTrackerService.clickOnDiscard();
+    }
+
+    @And("the user click {string} to confirm cancellation")
+    public void theUserClickToConfirmCancellation(String discard) {
+        TimeTrackerService.clickButtonDiscard();
+    }
+
+
+    @And("the user selects the {string}")
+    public void theUserSelectsThe(String project) {
+        TimeTrackerService.selectsProject(project);
+    }
+
+    @Then("the user not view time tracker {string}")
+    public void theUserNotViewTimeTracker(String fecha) {
+
+        if (fecha.compareToIgnoreCase("Today") != 0 && fecha.compareToIgnoreCase("Yesterday") != 0) {
+            //convertimos la fecha a buscar en pagina
+            String fechaFormateada = Date.formatDate(this.date);
+            boolean flagDate = TimeTrackerService.searchTimeTracker(fechaFormateada);
+            Assert.assertTrue("[WARNING] No se encontro la fecha cargada", flagDate);
+        }
+
+        boolean flagDate = TimeTrackerService.searchTimeTracker(fecha);
+        Assert.assertFalse("[WARNING] Se encontro fecha cuando no deberia haberse registrado", flagDate);
+    }
+
+
+    @When("the user enters new data: {string},{string},{string},{string},{string}")
+    public void theUserEntersNewData(String Description, String Project, String Time_START, String Time_END, String Date) {
+        ModifyTimeTraker.formModifyTimeTraker(Description, Project, Time_START, Time_END, Date);
+    }
+
+    @And("the user click save modify")
+    public void theUserClickSaveModify() {
+        ModifyTimeTraker.clicSaveModifyTime();
+        Sleep.Stop(2);
+
+    }
+
+    @Then("the user sees the modified data: {string},{string},{string},{string},{string}")
+    public void theUserSeesTheModifiedData(String Description, String Project, String Time_START, String Time_END, String Date) {
+    }
+
+    @Given("the user select time trake modify {string}")
+    public void theUserSelectTimeTrakeModify(String fecha) {
+        System.out.println("");
+    }
+
+    @Given("the user selects the time tracker entry for {string} to modify")
+    public void theUserSelectsTheTimeTrackerEntryForToModify(String fecha) {
+        TimeTrackerService.clicModifyTimeTraker(fecha);
+    }
 }
+
+
+
 
 
 
