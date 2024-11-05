@@ -7,6 +7,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.lippia.api.lowcode.variables.VariablesManager;
+import lippia.web.services.LandingPageWorkspaceService;
 import lippia.web.services.LogInService;
 import lippia.web.services.ModifyTimeTraker;
 import lippia.web.services.TimeTrackerService;
@@ -50,6 +51,8 @@ public class TimeTrackerSteps extends PageSteps {
         }
     }
 
+//1///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @And("the user clicks Time Tracker")
     public void theUserClicksTimeTracker() {
         TimeTrackerService.clickTimeTracker();
@@ -58,11 +61,6 @@ public class TimeTrackerSteps extends PageSteps {
     @Given("the user clicks add manual")
     public void theUserClicksAddManual() {
         TimeTrackerService.theUserClicksAddManual();
-    }
-
-    @And("the user click on the calendar")
-    public void theUserClicksOnTheCalendar() {
-        TimeTrackerService.clickOnTheCalendar();
     }
 
     @And("The user enters the date {string}")
@@ -81,17 +79,21 @@ public class TimeTrackerSteps extends PageSteps {
         TimeTrackerService.setEndTime(endTime);
     }
 
-    @And("the user clicks the Add button")
-    public void theUserClicksTheAddButton() {
-        TimeTrackerService.clickAddButton();
-    }
-
     @And("the user add description {string}")
     public void theUserAddDescription(String desc) {
         this.description = desc + "_" + AlphanumericGenerator.generateAlphanumeric(4);
         TimeTrackerService.addDescription(this.description);
     }
 
+    @And("the user selects the {string}")
+    public void theUserSelectsThe(String project) {
+        TimeTrackerService.selectsProject(project);
+    }
+
+    @And("the user clicks the Add button")
+    public void theUserClicksTheAddButton() {
+        TimeTrackerService.clickAddButton();
+    }
 
     @Then("the user sees the recorded time tracker")
     public void theUserSeesTheRecordedTimeTracker() {
@@ -106,6 +108,8 @@ public class TimeTrackerSteps extends PageSteps {
         System.out.println("");
     }
 
+//2///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     @When("the user click add timer")
     public void theUserClickAddTimer() {
@@ -117,12 +121,10 @@ public class TimeTrackerSteps extends PageSteps {
         TimeTrackerService.theUserAddADescription(Automation);
     }
 
-
     @And("the user click on the start button")
     public void theUserClickOnTheStartButton() {
         TimeTrackerService.theUserClicksOnTheStartButton();
     }
-
 
     @And("the user opens the Kebab menu and selects {string}")
     public void theUserOpensTheKebabMenuAndSelects(String option) {
@@ -135,24 +137,29 @@ public class TimeTrackerSteps extends PageSteps {
         TimeTrackerService.clickButtonDiscard();
     }
 
+    @Then("The user should see a {string} message")
+    public void theUserSeesTheTimerCanceledMessage(String expectedMessage) {
+        // Llama al servicio para obtener el mensaje actual
+        String actualMessage = TimeTrackerService.verifyTimerCanceledMessage();
 
-    @And("the user selects the {string}")
-    public void theUserSelectsThe(String project) {
-        TimeTrackerService.selectsProject(project);
+        // Imprime el mensaje obtenido para verificarlo (opcional)
+        System.out.println("Mensaje de cancelación obtenido: " + actualMessage);
+
+        // Compara el mensaje obtenido con el esperado
+        org.testng.Assert.assertEquals(actualMessage, expectedMessage, "El mensaje de cancelación no coincide con el esperado.");
     }
 
-    @Then("the user not view time tracker {string}")
-    public void theUserNotViewTimeTracker(String fecha) {
+    //3///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        if (fecha.compareToIgnoreCase("Today") != 0 && fecha.compareToIgnoreCase("Yesterday") != 0) {
-            //convertimos la fecha a buscar en pagina
-            String fechaFormateada = MyDate.formatDate(this.date);
-            boolean flagDate = TimeTrackerService.searchTimeTracker(fechaFormateada);
-            Assert.assertTrue("[WARNING] No se encontro la fecha cargada", flagDate);
-        }
 
-        boolean flagDate = TimeTrackerService.searchTimeTracker(fecha);
-        Assert.assertFalse("[WARNING] Se encontro fecha cuando no deberia haberse registrado", flagDate);
+    @Given("the user has a time entry registered {string}")
+    public void theUserHasATimeEntryRegistered(String fecha) {
+        TimeTrackerService.simpleTimeRecord(fecha);
+    }
+
+    @And("the user selects the time tracker entry for {string} to modify")
+    public void theUserSelectsTheTimeTrackerEntryForToModify(String fecha) {
+        TimeTrackerService.clicModifyTimeTraker(fecha);
     }
 
 
@@ -174,20 +181,7 @@ public class TimeTrackerSteps extends PageSteps {
         Assert.assertTrue("[WARNING] No se encontro la descripcion modificada", flag);
     }
 
-    @Given("the user select time trake modify {string}")
-    public void theUserSelectTimeTrakeModify(String fecha) {
-        System.out.println("");
-    }
 
-    @Given("the user selects the time tracker entry for {string} to modify")
-    public void theUserSelectsTheTimeTrackerEntryForToModify(String fecha) {
-        TimeTrackerService.clicModifyTimeTraker(fecha);
-    }
-
-    @Given("the user has a time entry registered {string}")
-    public void theUserHasATimeEntryRegistered(String fecha) {
-        TimeTrackerService.simpleTimeRecord(fecha);
-    }
 }
 
 

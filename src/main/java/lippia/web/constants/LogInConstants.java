@@ -9,4 +9,5 @@ public class LogInConstants {
     public static final String ERROR_MESSAGE = "css:[data-cy='error']";
     public static final String PROFILE_MENU_BUTTON = "xpath://*[@id=\"topbar-menu\"]/div/div[2]/div/app-user-settings/div/div/a/avatar/div/span";
     public static final String SIGN_OUT_OPTION = "xpath://*[@id=\"topbar-menu\"]/div/div[2]/div/app-user-settings/div/div/div[1]/a";
+    public static final String VERIFY_MESSAGE =" xpath://div[contains(text(), 'Timer cancelled')]";
 }

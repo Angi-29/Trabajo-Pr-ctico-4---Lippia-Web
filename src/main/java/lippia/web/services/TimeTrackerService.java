@@ -1,15 +1,17 @@
 package lippia.web.services;
 
+import com.crowdar.core.PropertyManager;
 import com.crowdar.core.actions.WebActionManager;
 import lippia.web.constants.TimeTrackerConstants;
 import lippia.web.utils.MyDate;
 import lippia.web.utils.Sleep;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
+import static com.crowdar.core.actions.WebActionManager.navigateTo;
 import static lippia.web.constants.TimeTrackerConstants.BTN_START;
 
 
@@ -34,23 +36,23 @@ public class TimeTrackerService {
         WebActionManager.click(TimeTrackerConstants.DATE_FIELD_TEXT);
         WebActionManager.getElement(TimeTrackerConstants.DATE_FIELD_TEXT).sendKeys(Keys.CONTROL + "a"); // Selecciona todo el texto
         WebActionManager.getElement(TimeTrackerConstants.DATE_FIELD_TEXT).sendKeys(Keys.BACK_SPACE); // Borra el texto seleccionado
-        WebActionManager.getElement(TimeTrackerConstants.DATE_FIELD_TEXT).sendKeys(date); // Introduce el valor y manda Enter
+        WebActionManager.getElement(TimeTrackerConstants.DATE_FIELD_TEXT).sendKeys(date); // Introduce el valor
     }
 
     public static void setStartTime(String startTime) {
         WebActionManager.click(TimeTrackerConstants.START_TIME_FIELD);
-        WebActionManager.getElement(TimeTrackerConstants.START_TIME_FIELD).sendKeys(Keys.CONTROL + "a"); // Selecciona todo el texto
-        WebActionManager.getElement(TimeTrackerConstants.START_TIME_FIELD).sendKeys(Keys.BACK_SPACE); // Borra el texto seleccionado
-        WebActionManager.getElement(TimeTrackerConstants.START_TIME_FIELD).sendKeys(startTime + Keys.ENTER); // Introduce el valor y manda Enter
-        //WebActionManager.click(TimeTrackerConstants.END_TIME_FIELD); // Asegura el foco en END_TIME_FIELD
+        WebActionManager.getElement(TimeTrackerConstants.START_TIME_FIELD).sendKeys(Keys.CONTROL + "a");
+        WebActionManager.getElement(TimeTrackerConstants.START_TIME_FIELD).sendKeys(Keys.BACK_SPACE);
+        WebActionManager.getElement(TimeTrackerConstants.START_TIME_FIELD).sendKeys(startTime + Keys.ENTER);
+
     }
 
     public static void setEndTime(String endTime) {
         WebActionManager.click(TimeTrackerConstants.END_TIME_FIELD);
-        WebActionManager.getElement(TimeTrackerConstants.END_TIME_FIELD).sendKeys(Keys.CONTROL + "a"); // Selecciona todo el texto
-        WebActionManager.getElement(TimeTrackerConstants.END_TIME_FIELD).sendKeys(Keys.BACK_SPACE); // Borra el texto seleccionado
-        WebActionManager.getElement(TimeTrackerConstants.END_TIME_FIELD).sendKeys(endTime + Keys.ENTER); // Introduce el valor y manda Enter
-        //WebActionManager.click(TimeTrackerConstants.START_TIME_FIELD); // Asegura el foco en END_TIME_FIELD
+        WebActionManager.getElement(TimeTrackerConstants.END_TIME_FIELD).sendKeys(Keys.CONTROL + "a");
+        WebActionManager.getElement(TimeTrackerConstants.END_TIME_FIELD).sendKeys(Keys.BACK_SPACE);
+        WebActionManager.getElement(TimeTrackerConstants.END_TIME_FIELD).sendKeys(endTime + Keys.ENTER);
+
     }
 
     public static void clickAddButton() {
@@ -60,30 +62,24 @@ public class TimeTrackerService {
 
     public static void addDescription(String description) {
         WebActionManager.click(TimeTrackerConstants.ADD_DESCRIPTION);
-        WebActionManager.getElement(TimeTrackerConstants.ADD_DESCRIPTION).sendKeys(Keys.CONTROL + "a"); // Selecciona todo el texto
-        WebActionManager.getElement(TimeTrackerConstants.ADD_DESCRIPTION).sendKeys(Keys.BACK_SPACE); // Borra el texto seleccionado
-        WebActionManager.getElement(TimeTrackerConstants.ADD_DESCRIPTION).sendKeys(description); // Introduce el valor y manda Enter
-        WebActionManager.click(TimeTrackerConstants.START_TIME_FIELD); // Asegura el foco en END_TIME_FIELD
+        WebActionManager.getElement(TimeTrackerConstants.ADD_DESCRIPTION).sendKeys(Keys.CONTROL + "a");
+        WebActionManager.getElement(TimeTrackerConstants.ADD_DESCRIPTION).sendKeys(Keys.BACK_SPACE);
+        WebActionManager.getElement(TimeTrackerConstants.ADD_DESCRIPTION).sendKeys(description);
+        WebActionManager.click(TimeTrackerConstants.START_TIME_FIELD);
     }
 
     public static boolean searchDescription(String desc) {
         String TXT_DESCRIPTION = "xpath://*[contains(text(), '" + desc + "')]";
-        //Esperamos q cargue, este metodo lo utilizo ya q no me esta saliendo lo de la espera explicita
-        //Sleep.Stop(10);
-        //List<WebElement> listDescription = WebActionManager.getElements(TXT_DESCRIPTION);
 
-        //PREGUNTAR
-        //Como utilizar el wait explicito?? Ya que como lo estoy usando me devuelve error
-        //Entiendo que utilizando waitVisibilities estoy esperando que el elemento se encuentre visible en la pagina
         List<WebElement> listDescription = WebActionManager.waitPresences(TXT_DESCRIPTION);
 
-        //El return lo utilizo para devolver true si encontro mi descripcion, caso contrario me devuelve false
+
         return listDescription.size() == 1;
 
     }
 
+
     public static boolean searchTimeTracker(String fechaFormateada) {
-        //Sleep.Stop(5);
         List<WebElement> listDescription = WebActionManager.waitPresences(TimeTrackerConstants.TAG_ENTRY_GROUP_HEADER);
         for (WebElement e : listDescription) {
             System.out.println("---> e " + e.getText());
@@ -94,7 +90,7 @@ public class TimeTrackerService {
         }
         return false;
     }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static void theUserClickAddTimer() {
         WebActionManager.click(TimeTrackerConstants.ADD_TIMER);
@@ -102,9 +98,9 @@ public class TimeTrackerService {
 
     public static void theUserAddADescription(String Automation) {
         WebActionManager.click(TimeTrackerConstants.ADD_NAME_DESCRIPTION);
-        WebActionManager.getElement(TimeTrackerConstants.ADD_NAME_DESCRIPTION).sendKeys(Keys.CONTROL + "a"); // Selecciona todo el texto
-        WebActionManager.getElement(TimeTrackerConstants.ADD_NAME_DESCRIPTION).sendKeys(Keys.BACK_SPACE); // Borra el texto seleccionado
-        WebActionManager.getElement(TimeTrackerConstants.ADD_NAME_DESCRIPTION).sendKeys(Automation); // Introduce el valor y manda Enter
+        WebActionManager.getElement(TimeTrackerConstants.ADD_NAME_DESCRIPTION).sendKeys(Keys.CONTROL + "a");
+        WebActionManager.getElement(TimeTrackerConstants.ADD_NAME_DESCRIPTION).sendKeys(Keys.BACK_SPACE);
+        WebActionManager.getElement(TimeTrackerConstants.ADD_NAME_DESCRIPTION).sendKeys(Automation);
 
     }
 
@@ -125,7 +121,7 @@ public class TimeTrackerService {
         WebActionManager.waitVisibility(TimeTrackerConstants.BTN_DISCARD).click();
 
     }
-
+    ///////////////////////////////////////////////////////////////////////////////
 
     public static void selectsProject(String project) {
         WebActionManager.click(TimeTrackerConstants.SELECTS_PROJECT);
@@ -137,6 +133,7 @@ public class TimeTrackerService {
 
     }
 
+
     public static void clicModifyTimeTraker(String fecha) {
         Sleep.Stop(3);
 
@@ -144,7 +141,7 @@ public class TimeTrackerService {
         for (WebElement ec : bulkEdit) {
             ec.click();
         }
-        //Invertimos y convertimos la fecha para la busqueda
+        //Inverti y converti la fecha para la busqueda
         // DD/MM/YYYY = YYYY-MM-DD
 
         String idFecha = MyDate.invertirFecha(fecha);
@@ -152,6 +149,7 @@ public class TimeTrackerService {
         for (WebElement ed : edit) {
             ed.click();
             WebActionManager.getElement(TimeTrackerConstants.BTN_BULK_EDIT).click();
+
         }
 
     }
@@ -159,7 +157,7 @@ public class TimeTrackerService {
     public static boolean searchEntryDescription(String descrip) {
         int i = WebActionManager.waitPresences("xpath://div[@data-cy='time-entry-description' and contains(text(), '" + descrip + "')]").size();
 
-        //Si encunetro un elmento con la mism descripcion devuelvo true, caso contario si es 0 o mas de 1 devuelvo false
+        //Si encuentro un elemento con la misma descripcion devuelvo true, caso contario si es 0 o mas de 1 devuelvo false
         return (i == 1);
     }
 
@@ -168,5 +166,20 @@ public class TimeTrackerService {
         enterDate(fecha);
         clickAddButton();
     }
-}
 
+    public static String verifyTimerCanceledMessage() {
+        List<WebElement> messages = WebActionManager.waitPresences(TimeTrackerConstants.VERIFY_MESSAGE);
+
+        String expectedMessage = "Timer cancelled";
+        for (WebElement message : messages) {
+            if (message.getText().equals(expectedMessage)) {
+                return message.getText();
+            }
+        }
+
+        // Lanza una excepción si no se encuentra el mensaje esperado
+        throw new AssertionError("El mensaje de 'Timer cancelled' no se encontró o el texto no coincide.");
+    }
+
+
+}

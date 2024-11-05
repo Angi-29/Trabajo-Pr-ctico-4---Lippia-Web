@@ -13,12 +13,10 @@ public class ModifyTimeTraker {
     public static void formModifyTimeTraker(String Description, String Project, String Time_START, String Time_END, String Date) {
         Sleep.Stop(3);//Esperamos que cargue la pagina
 
-
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_DESCRIPTION_CHECK).click();
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_DESCRIPTION_TXT).click();
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_DESCRIPTION_TXT).clear();
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_DESCRIPTION_TXT).sendKeys(Description);
-
 
 
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_PROJECT_CHECK).click();
@@ -26,15 +24,13 @@ public class ModifyTimeTraker {
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_PROJECT_TEXT).clear();
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_PROJECT_TEXT).sendKeys(Project);
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_PROJECT_TEXT).sendKeys(Keys.ENTER);
+        Sleep.Stop(2);
 
         String BULK_PROJECT_LBL = "xpath://button[@type='button' and contains(@title, '"+Project+"')]";
-        Sleep.Stop(2);
         WebActionManager.waitPresence(BULK_PROJECT_LBL).click();
 
 
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_TIME_CHECK).click();
-
-
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_TIME_START_TXT).sendKeys(Keys.CONTROL + "a" + Keys.BACK_SPACE);
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_TIME_START_TXT).sendKeys(Time_START);
 
@@ -42,7 +38,6 @@ public class ModifyTimeTraker {
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_TIME_END_TXT).sendKeys(Time_END);
 
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_DATE_CHECK).click();
-
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_DATE_TXT).sendKeys(Keys.CONTROL + "a" + Keys.BACK_SPACE);
         WebActionManager.getElement(ModifyTimeTrakerConstans.BULK_DATE_TXT).sendKeys(Date);
 
